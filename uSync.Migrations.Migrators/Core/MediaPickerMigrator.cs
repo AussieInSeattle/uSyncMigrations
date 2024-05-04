@@ -47,6 +47,16 @@ public class MediaPickerMigrator : SyncPropertyMigratorBase
             return contentProperty.Value;
         }
 
+        //might be already converted?
+        //start of changes - not sure why but some images already converted and it tries to convert them again
+        try
+        {
+            var deserialized = JsonConvert.DeserializeObject<List<MediaWithCropsDto>>(contentProperty.Value);
+            return contentProperty.Value;
+        }
+        catch { }
+        //end of changes
+
         var defaultCrops = Enumerable.Empty<ImageCropperValue.ImageCropperCrop>();
         var defaultFocalPoint = default(ImageCropperValue.ImageCropperFocalPoint);
 

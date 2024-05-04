@@ -311,6 +311,13 @@ internal class GridToBlockContentHelper
         }
 
         var contentTypeKey = context.ContentTypes.GetKeyByAlias(contentTypeAlias);
+        //start of changes - BlockElement_rte only exists after first import maybe or at first import only? so need to get the guid of it and add it below
+        if (contentTypeKey == Guid.Empty && contentTypeAlias == "BlockElement_rte")
+        {
+            //select umbracoNode.uniqueId from umbracoNode inner join cmsContentType on umbracoNode.id = cmsContentType.nodeId and cmsContentType.alias='BlockElement_rte'
+            contentTypeKey = Guid.Parse("48BA1FC4-8797-3F42-ABB4-D8C392623022");
+        }
+        //end of changes
         if (contentTypeKey == Guid.Empty)
         {
             _logger.LogWarning("Cannot find content type key from alias {alias}", contentTypeAlias);

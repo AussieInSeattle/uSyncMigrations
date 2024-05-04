@@ -169,6 +169,12 @@ internal abstract class ContentTypeBaseMigrationHandler<TEntity> : SharedContent
             targetInfo.Element("Alias")?.Remove();
 
             targetInfo.Add(new XElement("Variations", "Nothing"));
+            //not sure this works - trying to get grid blocks to import correctly
+            //start of changes
+            var alias = target.Attribute("Alias").Value;
+            if ((new string[] { "gridImage", "imageToPopupContent", "newsItem", "textOverImage", "textOverImageBackground", "textOverImageLeftOverlay", "twoColumnHeroImageText", "twoSameHeightImages", "video" }).Contains(alias))
+                context.ContentTypes.AddElementType(key);
+            //end of changes
             targetInfo.Add(new XElement("IsElement", context.ContentTypes.IsElementType(key)));
 
             target.Add(targetInfo);
